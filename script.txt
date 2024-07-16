@@ -57,8 +57,6 @@ else
 			["Y"] = "Υ"
 		}
 
-		local default = " ိ"
-
 		local player = players.LocalPlayer
 		local playerGui = player:WaitForChild("PlayerGui")
 		local chatGui, chatBar = playerGui:WaitForChild("Chat")
