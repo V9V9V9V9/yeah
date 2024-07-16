@@ -1,0 +1,65 @@
+repeat wait() until game:IsLoaded()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AnthonyIsntHere/anthonysrepository/main/scripts/AntiChatLogger.lua", true))()
+wait()
+ 
+local chatService, players = game:GetService("Chat"), game:GetService("Players")
+local player = players.LocalPlayer
+ 
+local replacements = {
+            ["i"] = "і",
+            ["a"] = "а",
+            ["e"] = "е",
+            ["c"] = "с",
+            ["h"] = "һ",
+            ["o"] = "о",
+            ["y"] = "у",
+            ["j"] = "ј",
+            ["x"] = "х",
+            ["p"] = "р",
+            ["s"] = "ѕ",
+}
+ 
+local bypassing = true
+ 
+local c = function()
+	for i = 1, 2 do
+		local message = "/e i eat kids"
+		game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/e hi " .. string.gsub(message, "%a", replacements), "All")
+	end
+end
+ 
+local TextButton = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
+local ScreenGui = Instance.new("ScreenGui")
+TextButton.Parent = ScreenGui
+TextButton.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.BorderSizePixel = 0
+TextButton.Position = UDim2.new(0.464, 0, 0.790, 0)
+TextButton.Size = UDim2.new(0, 109, 0, 50)
+TextButton.Font = Enum.Font.Cartoon
+TextButton.Text = "Disable Bypasser"
+TextButton.TextColor3 = Color3.fromRGB(144, 201, 255)
+TextButton.TextScaled = true
+TextButton.TextSize = 23.000
+TextButton.TextWrapped = true
+UICorner.Parent = TextButton
+ScreenGui.Parent = game.CoreGui
+local old
+old = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
+	local method, args = getnamecallmethod(), {...}
+ 
+	if method == "FireServer" and self.Name == "SayMessageRequest" and #args == 2 and not checkcaller() then
+		if bypassing then
+			args[1] = " ိ" .. string.gsub(args[1], "%a", replacements)
+			coroutine.wrap(c)
+		end
+		return old(self, unpack(args))
+	end
+	return old(self, ...)
+end))
+ 
+TextButton.MouseButton1Down:Connect(function()
+	bypassing = not bypassing
+	TextButton.Text = bypassing and "Disable Bypasser" or "Enable Bypasser"
+end)
