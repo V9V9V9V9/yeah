@@ -39,7 +39,6 @@ else
 		local chatService, players = game:GetService("Chat"), game:GetService("Players")
 
 		local custom_chars = {
-			[" "] = "",
 			["i"] = "і",
 			["a"] = "а",
 			["e"] = "е",
